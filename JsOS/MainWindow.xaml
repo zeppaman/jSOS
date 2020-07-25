@@ -5,12 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:JsOS.APP.Core"
         mc:Ignorable="d"
-        Title="JSOS" Height="450" Width="800"  Loaded="OnWindowLoaded" 
+        Title="JSOS" Height="450" Width="800" 
          DataContext="{Binding RelativeSource={RelativeSource Self}}"   xmlns:tb="http://www.hardcodet.net/taskbar" WindowStyle="SingleBorderWindow" >
     <Window.Resources>
-        <local:MultiValueConverter x:Key="MultiValueConverter" />
-        <local:IpValidation x:Key="IpValidation" />
-        <local:AppPermissionToEnabledConverter x:Key="AppPermissionToEnabledConverter" />
+        <local:MultiValueConverter x:Key="MultiValueConverter" />        
     </Window.Resources>
 
 
