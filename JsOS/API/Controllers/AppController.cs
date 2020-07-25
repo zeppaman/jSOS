@@ -11,14 +11,11 @@ namespace JsOS.API.Controllers
 
     [ApiController]
     [Route("[controller]")]
-    public class AppController
+    public class AppController:BaseController
     {
 
-        DatabaseService databaseService;
-        public AppController()
-        {
-            this.databaseService =  App.ServiceProvider.GetService(typeof(DatabaseService)) as DatabaseService;
-        }
+        public AppController() : base()
+        { }
 
         [HttpPost("register")]
         public bool Register(AppPermissionRequest request)
