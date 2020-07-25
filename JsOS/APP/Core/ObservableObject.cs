@@ -15,7 +15,7 @@ namespace JsOS.APP.Core
             if (!object.ReferenceEquals(field, value))
             {
                 field = value;
-                this.OnPropertyChanged(property);
+                this.OnPropertyChanged(property);                
             }
         }
 
@@ -25,6 +25,7 @@ namespace JsOS.APP.Core
             {
                 string name = ((MemberExpression)changedProperty.Body).Member.Name;
                 PropertyChanged(this, new PropertyChangedEventArgs(name));
+
             }
         }
     }

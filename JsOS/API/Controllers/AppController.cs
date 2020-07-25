@@ -32,13 +32,19 @@ namespace JsOS.API.Controllers
 
             if (!request.Async)
             {
-                var msg = $"Allow app {appToSave.AppName} to access permission:";
+                var msg = $"Allow app {appToSave.AppName} to access permission:";                
 
-                appToSave.Needs.ForEach(x => msg += " " + x.Permission);
+                foreach (var item in appToSave.Needs)
+                {
+                    msg += " " + item.Permission;
+                }
 
                 if (MessageBox.Show(msg,"Permission request",MessageBoxButton.YesNo)==MessageBoxResult.Yes)
                 {
-                    appToSave.Needs.ForEach(x => x.Enabled = true);
+                    foreach (var item in appToSave.Needs)
+                    {
+                        item.Enabled = true;
+                    }
                     this.DatabaseService.SavePermission(appToSave);
                     return true;
                 }

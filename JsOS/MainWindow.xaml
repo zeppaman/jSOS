@@ -5,96 +5,152 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:JsOS.APP.Core"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800"  Loaded="OnWindowLoaded" 
-         DataContext="{Binding RelativeSource={RelativeSource Self}}" Closing="Window_Closing"  xmlns:tb="http://www.hardcodet.net/taskbar" WindowStyle="SingleBorderWindow" >
+        Title="JSOS" Height="450" Width="800"  Loaded="OnWindowLoaded" 
+         DataContext="{Binding RelativeSource={RelativeSource Self}}"   xmlns:tb="http://www.hardcodet.net/taskbar" WindowStyle="SingleBorderWindow" >
     <Window.Resources>
         <local:MultiValueConverter x:Key="MultiValueConverter" />
         <local:IpValidation x:Key="IpValidation" />
+        <local:AppPermissionToEnabledConverter x:Key="AppPermissionToEnabledConverter" />
     </Window.Resources>
 
 
-    <StackPanel>
-  
-        
-    <TabControl>
-        <TabItem Header="Authorizations">
-            <StackPanel>
+    
 
-                <ListView ItemsSource="{Binding Path=AppPermission}">
+
+        <TabControl>
+            <TabItem Header="Authorizations">
+                <DockPanel VerticalAlignment="Stretch"  >
+
+                    <WrapPanel  Height="40" Background="Beige" DockPanel.Dock="Bottom" >
+                        <Button Content="Save"  Command="{Binding SavePermission}" VerticalAlignment="Center" />
+                    </WrapPanel>
+
+
+                    <ListView ItemsSource="{Binding Path=AppPermission}"  HorizontalAlignment="Stretch"    >
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
                     <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel>
-                                <WrapPanel>
-                                    <TextBlock Text="{Binding Path=AppName}"  />
+                        
+                            <DataTemplate>
+
+                            <StackPanel  HorizontalAlignment="Stretch"   >
+                                <DockPanel  HorizontalAlignment="Stretch" LastChildFill="True">
+                                
 
 
-                                    <TextBlock Text="check/uncheck" Margin="10,0" />
-                                    <CheckBox IsChecked="{x:Null}" Name="AllEnabled" IsThreeState="False" 
-                                      Command="{Binding Path=DataContext.SelectChildPermission, RelativeSource={RelativeSource AncestorType=ItemsControl}}" 
+
+                                    <Button   Name="AllEnabled"  Width="50" DockPanel.Dock="Right"
+                                      Command="{Binding Path=DataContext.SelectChildPermission, RelativeSource={RelativeSource AncestorType=Window}}" 
                                      >
-                                        <CheckBox.CommandParameter >
-                                            <MultiBinding  Converter="{StaticResource MultiValueConverter}">
-                                                <Binding Path="."/>
-                                                <Binding ElementName="AllEnabled" Path="IsChecked"/>
-                                            </MultiBinding>
-                                        </CheckBox.CommandParameter>
-                                    </CheckBox>
+                                        <Button.CommandParameter >
+                                                <MultiBinding  Converter="{StaticResource MultiValueConverter}">
+                                                    <Binding Path="."/>
+                                                    <Binding ElementName="AllEnabled" Path=""/>
+                                                </MultiBinding>
+                                            </Button.CommandParameter>
 
-                                    <TextBlock Text="edit"  Margin="10,0" />
-                                    <CheckBox IsChecked="False" Name="AppSelected" />
-                                </WrapPanel>
-                                <StackPanel Name="Panel" HorizontalAlignment="Stretch">
-                                    <StackPanel.Style>
-                                        <Style TargetType="StackPanel"   >
-                                            <Setter Property="Visibility" Value="Collapsed" />
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding IsChecked, ElementName=AppSelected}" Value="True"  >
-                                                    <Setter Property="Visibility" Value="Visible"/>
-                                                </DataTrigger>
+                                        <Button.Style>
+                                            <Style TargetType="Button">
+                                                <Style.Triggers   >
+
+                                                    <DataTrigger Binding="{Binding Enabled}" Value="False" >
+                                                        <Setter Property="Background" Value="Red"  />
+                                                        <Setter Property="Content" Value="Enable"  />
+                                                    </DataTrigger>
+
+
+                                                    <DataTrigger Binding="{Binding Enabled}" Value="True" >
+                                                        <Setter Property="Background" Value="Green"  />
+                                                        <Setter Property="Content" Value="Disable"  />
+
+                                                    </DataTrigger>
+
+
+                                                    <DataTrigger Binding="{Binding Enabled}" Value="{x:Null}" >
+                                                        <Setter Property="Background" Value="Orange"  />
+                                                        <Setter Property="Content" Value="Fully Enable"  />
+                                                    </DataTrigger>
+
+
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Button.Style>
+                                        
+                                    </Button>
+
+
+
+
+                                    <ToggleButton IsChecked="False" Name="AppSelected"  Width="50" DockPanel.Dock="Right" >
+
+
+                                        <ToggleButton.Style>
+                                            <Style TargetType="ToggleButton">
+                                                <Style.Triggers   >
+                                                    
+                                                    <Trigger Property="IsChecked" Value="False"   >
+                                                        <Setter Property="Content" Value="Open"  />
+                                                    </Trigger>
+                                                <Trigger Property="IsChecked" Value="True" >
+                                                    <Setter Property="Content" Value="Close"  />
+                                                </Trigger>
                                             </Style.Triggers>
-                                        </Style>
-                                    </StackPanel.Style>
-                                    <ListView ItemsSource="{Binding Needs}">
-                                        <ListView.ItemTemplate>
-                                            <DataTemplate>
-                                                <WrapPanel>
-                                                    <TextBlock Text="{Binding Permission}" />
-                                                    <CheckBox HorizontalAlignment="Right" IsChecked="{Binding Enabled}" />
-                                                </WrapPanel>
-                                            </DataTemplate>
-                                        </ListView.ItemTemplate>
-                                    </ListView>
+                                            </Style>
+                                        </ToggleButton.Style>
+                                    </ToggleButton>
+
+                                    <TextBlock Text="{Binding Path=AppName}" FontSize="20"   />
+                                </DockPanel>
+                                <DockPanel Name="Panel" HorizontalAlignment="Stretch">
+                                    <DockPanel.Style>
+                                        <Style TargetType="DockPanel"   >
+                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsChecked, ElementName=AppSelected}" Value="True"  >
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </DockPanel.Style>
+                                        <ListView ItemsSource="{Binding Needs}" HorizontalAlignment="Stretch">
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <WrapPanel>
+                                                        <TextBlock Text="{Binding Permission}" />
+                                                        <CheckBox HorizontalAlignment="Right" IsChecked="{Binding Enabled}" />
+                                                    </WrapPanel>
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                        </ListView>
+                                    </DockPanel>
                                 </StackPanel>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </DockPanel>
+            </TabItem>
+            <TabItem Header="Settings">
+                <StackPanel>
+                    <WrapPanel  Height="20" Background="Beige">
+                        <Button Content="Save"  Command="{Binding SaveSettings, Mode=TwoWay}" CommandParameter="{Binding Settings}"/>
+                    </WrapPanel>
+                    <GroupBox DataContext="{Binding Path=Settings}" >
+                        <StackPanel>
+                            <WrapPanel>
+                                <CheckBox Content="Enabled"  IsChecked="{Binding Enabled, Mode=TwoWay}"></CheckBox>
+                            </WrapPanel>
 
-                <WrapPanel  Height="20" Background="Beige">
-                    <Button Content="Save"  Command="{Binding SavePermission}"/>                    
-                </WrapPanel>
+                            <WrapPanel>
+                                <CheckBox Content="Allow External Ip"   IsChecked="{Binding AllowExternalIps, Mode=TwoWay}"></CheckBox>
+                            </WrapPanel>
+                        </StackPanel>
+                    </GroupBox>
 
-            </StackPanel>
-        </TabItem>
-        <TabItem Header="Settings">
-            <StackPanel>
-                <WrapPanel  Height="20" Background="Beige">
-                    <Button Content="Save"  Command="{Binding SaveSettings, Mode=TwoWay}" CommandParameter="{Binding Settings}"/>
-                </WrapPanel>
-                <GroupBox DataContext="{Binding Path=Settings}" >
-                    <StackPanel>
-                        <WrapPanel>
-                            <CheckBox Content="Enabled"  IsChecked="{Binding Enabled, Mode=TwoWay}"></CheckBox>
-                        </WrapPanel>
-
-                        <WrapPanel>
-                            <CheckBox Content="Allow External Ip"   IsChecked="{Binding AllowExternalIps, Mode=TwoWay}"></CheckBox>
-                        </WrapPanel>
-                    </StackPanel>
-                </GroupBox>
-
-            </StackPanel>
-        </TabItem>
-    </TabControl>
-    </StackPanel>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+ 
 </Window>

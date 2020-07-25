@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -39,6 +40,8 @@ namespace JsOS
                 OnSelectChildPermission(args);
             }, o => true);
 
+          
+
             SavePermission = new RelayCommand((obj) =>
             {
                 OnSavePermission(obj);
@@ -49,26 +52,6 @@ namespace JsOS
                 OnSaveSettings(obj);
             }, o => true);
 
-
-
-            this.db.GetAppPermission().Insert(new AppPermission()
-            {
-                AppName = Guid.NewGuid().ToString(),
-                Needs = new List<Need>()
-                {
-                    new Need()
-                    {
-                        Permission="READ",
-                        Enabled=false
-                    },
-                     new Need()
-                    {
-                        Permission="WRITE",
-                        Enabled=true
-                    }
-                }
-
-            });
 
 
             var apps = this.db.GetAppPermission().FindAll().ToList();
@@ -84,6 +67,7 @@ namespace JsOS
 
 
         public RelayCommand<List<object>> SelectChildPermission { get; set; }
+
         public RelayCommand SavePermission { get; set; }
 
         public RelayCommand<Settings> SaveSettings { get; set; }
@@ -106,21 +90,33 @@ namespace JsOS
         private void OnSelectChildPermission(List<object> args)
         {
             AppPermission app = args[0] as AppPermission;
+            ;
+            AppPermission binded = AppPermission.Where(x => x.AppName == app.AppName).FirstOrDefault();
+
+            var enabled = (app.Enabled.HasValue == false || app.Enabled.Value == false);
+
+
+
+            foreach (var item in binded.Needs)
+            {
+                item.Enabled = enabled;
+            }
+        }
+
+        private void OnSelectChildPermissionItem(List<object> args)
+        {
+            AppPermission app = args[0] as AppPermission;
             bool? selection = (bool?)args[1];
             AppPermission binded = AppPermission.Where(x => x.AppName == app.AppName).FirstOrDefault();
 
-            if (!selection.HasValue) return;
-
-            binded.Needs.ForEach(x => x.Enabled = selection.Value);
+            
         }
 
-
-
-        public TrulyObservableCollection<AppPermission> AppPermission
+        public BindingList<AppPermission> AppPermission
         {
             get
             {
-                return (TrulyObservableCollection<AppPermission>)GetValue(AppPermissionProperty);
+                return (BindingList<AppPermission>)GetValue(AppPermissionProperty);
             }
             set
             {
@@ -132,8 +128,8 @@ namespace JsOS
              DependencyProperty AppPermissionProperty
                  = DependencyProperty.Register(
                                      "AppPermissionProperty",
-                                     typeof(TrulyObservableCollection<AppPermission>),
-                                     typeof(MainWindow), new UIPropertyMetadata(new TrulyObservableCollection<AppPermission>()));
+                                     typeof(BindingList<AppPermission>),
+                                     typeof(MainWindow), new UIPropertyMetadata(new BindingList<AppPermission>()));
 
 
 
@@ -159,16 +155,5 @@ namespace JsOS
                                      typeof(MainWindow));
 
 
-        private void OnWindowLoaded(object sender, System.EventArgs e)
-        {
-          
-        }
-
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-        
-
-            this.Hide();
-        }
     }
 }
