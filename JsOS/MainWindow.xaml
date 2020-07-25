@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:local="clr-namespace:JsOS.APP.Core"
         mc:Ignorable="d"
         Title="JSOS" Height="450" Width="800" 
@@ -19,9 +20,9 @@
             <TabItem Header="Authorizations">
                 <DockPanel VerticalAlignment="Stretch"  >
 
-                    <WrapPanel  Height="40" Background="Beige" DockPanel.Dock="Bottom" >
-                        <Button Content="Save"  Command="{Binding SavePermission}" VerticalAlignment="Center" />
-                    </WrapPanel>
+                    <DockPanel  Height="40" Background="Beige" DockPanel.Dock="Bottom" HorizontalAlignment="Stretch" LastChildFill="False">
+                        <Button Content="Save"  Command="{Binding SavePermission}" VerticalAlignment="Center" Height="30" Width="100" DockPanel.Dock="Right" Margin="20,0" />                        
+                    </DockPanel>
 
 
                     <ListView ItemsSource="{Binding Path=AppPermission}"  HorizontalAlignment="Stretch"    >
@@ -40,7 +41,7 @@
 
 
 
-                                    <Button   Name="AllEnabled"  Width="50" DockPanel.Dock="Right"
+                                    <Button   Name="AllEnabled"  Width="100" DockPanel.Dock="Right"
                                       Command="{Binding Path=DataContext.SelectChildPermission, RelativeSource={RelativeSource AncestorType=Window}}" 
                                      >
                                         <Button.CommandParameter >
@@ -82,25 +83,35 @@
 
 
 
-                                    <ToggleButton IsChecked="False" Name="AppSelected"  Width="50" DockPanel.Dock="Right" >
-
+                                    <ToggleButton IsChecked="False" Name="AppSelected"  Width="30" DockPanel.Dock="Left" >
+                                        <ToggleButton.Content>
+                                            <fa:FontAwesome Icon="Edit" />
+                                        </ToggleButton.Content>
 
                                         <ToggleButton.Style>
                                             <Style TargetType="ToggleButton">
                                                 <Style.Triggers   >
                                                     
                                                     <Trigger Property="IsChecked" Value="False"   >
-                                                        <Setter Property="Content" Value="Open"  />
+                                                        <Setter Property="Content" >
+                                                            <Setter.Value>
+                                                                <fa:FontAwesome Icon="Edit" />
+                                                            </Setter.Value>
+                                                        </Setter>
                                                     </Trigger>
                                                 <Trigger Property="IsChecked" Value="True" >
-                                                    <Setter Property="Content" Value="Close"  />
-                                                </Trigger>
+                                                        <Setter Property="Content"   >
+                                                            <Setter.Value>
+                                                                <fa:FontAwesome Icon="Close" />                                                            
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Trigger>
                                             </Style.Triggers>
                                             </Style>
                                         </ToggleButton.Style>
                                     </ToggleButton>
 
-                                    <TextBlock Text="{Binding Path=AppName}" FontSize="20"   />
+                                    <TextBlock Text="{Binding Path=AppName}" FontSize="20"  Margin="10,0" />
                                 </DockPanel>
                                 <DockPanel Name="Panel" HorizontalAlignment="Stretch">
                                     <DockPanel.Style>
@@ -131,23 +142,23 @@
                 </DockPanel>
             </TabItem>
             <TabItem Header="Settings">
-                <StackPanel>
-                    <WrapPanel  Height="20" Background="Beige">
-                        <Button Content="Save"  Command="{Binding SaveSettings, Mode=TwoWay}" CommandParameter="{Binding Settings}"/>
-                    </WrapPanel>
-                    <GroupBox DataContext="{Binding Path=Settings}" >
+            <DockPanel VerticalAlignment="Stretch" >
+                <DockPanel  Height="40" Background="Beige" DockPanel.Dock="Bottom" HorizontalAlignment="Stretch" LastChildFill="False">
+                    <Button Content="Save"  Command="{Binding SaveSettings, Mode=TwoWay}" CommandParameter="{Binding Settings}" VerticalAlignment="Center" Height="30" Width="100" DockPanel.Dock="Right" Margin="20,0"/>
+                </DockPanel>
+                    <GroupBox DataContext="{Binding Path=Settings}" FontSize="15" >
                         <StackPanel>
-                            <WrapPanel>
-                                <CheckBox Content="Enabled"  IsChecked="{Binding Enabled, Mode=TwoWay}"></CheckBox>
+                            <WrapPanel Margin="10" >
+                                <CheckBox Content="Enabled"  IsChecked="{Binding Enabled, Mode=TwoWay}" VerticalAlignment="Stretch"></CheckBox>
                             </WrapPanel>
 
-                            <WrapPanel>
-                                <CheckBox Content="Allow External Ip"   IsChecked="{Binding AllowExternalIps, Mode=TwoWay}"></CheckBox>
+                        <WrapPanel Margin="10">
+                            <CheckBox Content="Allow External Ip"   IsChecked="{Binding AllowExternalIps, Mode=TwoWay}"  VerticalAlignment="Stretch"></CheckBox>
                             </WrapPanel>
                         </StackPanel>
                     </GroupBox>
 
-                </StackPanel>
+                </DockPanel>
             </TabItem>
         </TabControl>
  
