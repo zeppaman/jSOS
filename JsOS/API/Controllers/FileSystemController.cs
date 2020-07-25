@@ -17,47 +17,48 @@ namespace JsOS.API.Controllers
 
 
         [HttpPost("file/save")]
-        public bool Save(string filepath, string contentBase64)
+        public bool Save([FromQuery]string filepath,[FromBody] string contentBase64)
         {
-            ComputePermission("file/write");
-            File.WriteAllBytes(filepath, Convert.FromBase64String(contentBase64));
+            ComputePermission("file/write",HttpContext);
+            System.IO.File.WriteAllBytes(filepath, Convert.FromBase64String(contentBase64));
             return true;
         }
 
-        [HttpPost("file/read")]
-        public string Read(string filepath)
+        [HttpGet("file/read")]
+        public string Read([FromQuery]string filepath)
         {
-            ComputePermission("file/read");
-            return Convert.ToBase64String(File.ReadAllBytes(filepath));
+            ComputePermission("file/read", HttpContext);
+            return Convert.ToBase64String(System.IO.File.ReadAllBytes(filepath));
         }
 
-        [HttpPost("file/delete")]
-        public void Delete(string filepath)
+        [HttpDelete("file/delete")]
+        public void Delete([FromQuery] string filepath)
         {
-            ComputePermission("file/delete");
-             File.Delete(filepath);
+            ComputePermission("file/delete", HttpContext);
+            System.IO.File.Delete(filepath);
         }
 
 
 
         [HttpPost("directory/create")]
-        public DirectoryInfo CreateDirectory(string path)
+        public DirectoryInfo CreateDirectory([FromQuery]string path)
         {
-            ComputePermission("file/write");
+            ComputePermission("file/write", HttpContext);
             return Directory.CreateDirectory (path);
         }
 
-        [HttpPost("directory/delete")]
-        public void DeleteDirectory(string path)
+        [HttpDelete("directory/delete")]
+        public void DeleteDirectory([FromQuery]string path)
         {
-            ComputePermission("file/write");
+            ComputePermission("file/write", HttpContext);
             Directory.Delete(path);
         }
 
-        [HttpPost("directory/files")]
-        public string[] ListFiles(string path,string searchPattern,bool recursive)
+        [HttpGet("directory/files")]
+        public string[] ListFiles([FromQuery]string path, [FromQuery]string searchPattern, [FromQuery]bool recursive)
         {
-            ComputePermission("file/read");
+            
+            ComputePermission("file/read",HttpContext);
             return Directory.GetFiles(path, searchPattern, new EnumerationOptions() { RecurseSubdirectories = recursive });
         }
 

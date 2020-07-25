@@ -20,15 +20,15 @@ namespace JsOS.API.Controllers
         [HttpPost("register")]
         public bool Register(AppPermissionRequest request)
         {
-            var appCandidate=this.databaseService.GetAppPermission().FindOne((x) => x.AppName == request.AppName);
-            if (appCandidate != null & appCandidate.Token != request.Token)
+            var appCandidate=this.DatabaseService.GetAppPermission().FindOne((x) => x.AppName == request.AppName);
+            if (appCandidate != null && appCandidate.Token != request.Token)
             {
                 throw new Exception("Bad change request");
             }
              
             var appToSave = GetAppToSave(request);
             //an update request reset all permission (also the already given)
-            this.databaseService.SavePermission(appToSave);
+            this.DatabaseService.SavePermission(appToSave);
 
             if (!request.Async)
             {
@@ -39,7 +39,7 @@ namespace JsOS.API.Controllers
                 if (MessageBox.Show(msg,"Permission request",MessageBoxButton.YesNo)==MessageBoxResult.Yes)
                 {
                     appToSave.Needs.ForEach(x => x.Enabled = true);
-                    this.databaseService.SavePermission(appToSave);
+                    this.DatabaseService.SavePermission(appToSave);
                     return true;
                 }
 
@@ -53,7 +53,7 @@ namespace JsOS.API.Controllers
             var appToSave = new AppPermission();
             appToSave.AppName = request.AppName;
             request.Needs.ForEach(x => appToSave.Needs.Add(new Need() { Permission = x, Enabled = false }));
-            request.Token = request.Token;
+            appToSave.Token = request.Token;
             return appToSave;
         }
     }

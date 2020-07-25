@@ -15,6 +15,7 @@ using JsOS.API;
 using Microsoft.Extensions.DependencyInjection;
 using JsOS.APP.Services;
 using JsOS.APP.Model;
+using Microsoft.AspNetCore.Http;
 
 namespace JsOS
 {
@@ -57,6 +58,7 @@ namespace JsOS
             services.AddSingleton<ConfigService>();
             services.AddSingleton<DatabaseService>();
             services.AddSingleton<ServerService>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             App.ServiceProvider = services.BuildServiceProvider();
 

@@ -20,7 +20,7 @@ namespace JsOS.API.Controllers
         [HttpGet("whoami")]
         public string Whoami()
         {
-            ComputePermission("os/read");
+            ComputePermission("os/read", HttpContext);
             return Environment.UserDomainName + "\\" + Environment.UserName;
         }
 
@@ -28,7 +28,7 @@ namespace JsOS.API.Controllers
         [HttpGet("username")]
         public string GetUsername()
         {
-            ComputePermission("os/read");
+            ComputePermission("os/read", HttpContext);
             return Environment.UserName;
         }
 
@@ -36,7 +36,7 @@ namespace JsOS.API.Controllers
         [HttpGet("domainname")]
         public string GetDomainName()
         {
-            ComputePermission("os/read");
+            ComputePermission("os/read", HttpContext);
             return Environment.UserDomainName;
         }
 
@@ -44,7 +44,7 @@ namespace JsOS.API.Controllers
         [HttpGet("variable")]
         public string GetVariable(string variableName)
         {
-            ComputePermission("os/read");
+            ComputePermission("os/read", HttpContext);
             return Environment.GetEnvironmentVariable(variableName);
         }
 
@@ -52,7 +52,7 @@ namespace JsOS.API.Controllers
         [HttpGet("cpu")]
         public float GetCPUUsed()
         {
-            ComputePermission("os/read");
+            ComputePermission("os/read", HttpContext);
             PerformanceCounter cpuCounter;
             cpuCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
             return cpuCounter.NextValue();
@@ -61,7 +61,7 @@ namespace JsOS.API.Controllers
         [HttpGet("ram")]
         public float GetRAMAvailable()
         {
-            ComputePermission("os/read");
+            ComputePermission("os/read", HttpContext);
             PerformanceCounter ramCounter;
             ramCounter = new PerformanceCounter("Memory", "Available MBytes");
             return ramCounter.NextValue();
