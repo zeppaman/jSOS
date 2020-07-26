@@ -1,6 +1,8 @@
 # jSOS
 A tool for adding features like file system access to JavaScript
 
+<image src="https://github.com/zeppaman/jSOS/blob/master/logo.png?raw=true" align="left" width="250"/>
+
 # Why
 In a world where we are delivering  powefull javascript application, we would have the possibility to print, interact with file system to be able to develop full desktop application with javascript.
 Often the parts that need such capabilities are very limited, so it is quite expensive creating and mantainig a desktop application or an emebdded application (electron).
@@ -75,60 +77,60 @@ In future we should have different scope for a better app isolation ( like: acce
 ### POST /filesystem/file/save
 Save a file starting from a base64 string
 
-*QUERY PARAMS*
+**QUERY PARAMS**
  -filepath
 
-*FROM BODY*
+**FROM BODY**
 - contentBase64
 
- *REQUIRED PERMISSION*
+ **REQUIRED PERMISSION**
  - file/write
 
 ### GET /filesystem/file/read 
 read file content as base64
 
-*QUERY PARAMS*
- -filepath
+**QUERY PARAMS**
+ - filepath
 
-*REQUIRED PERMISSION*
+**REQUIRED PERMISSION**
  - file/read
 
 ### DELETE /filesystem/file/delete
 Delete a file
 
-*QUERY PARAMS*
- -filepath
+**QUERY PARAMS**
+ - filepath
 
- *REQUIRED PERMISSION*
+ **REQUIRED PERMISSION**
  - file/delete
 
 ### POST /filesystem/directory/create
 Create a directory if not exists
 
-*QUERY PARAMS*
- -path
+**QUERY PARAMS**
+ - path
 
-*REQUIRED PERMISSION*
+**REQUIRED PERMISSION**
  - file/write
 
 ### DELETE /filesystem/directory/delete 
 Delete a file
 
-*QUERY PARAMS*
- -path
+**QUERY PARAMS**
+ - path
 
-*REQUIRED PERMISSION*
+**REQUIRED PERMISSION**
  - file/delete
 
 ### GET /filesystem/directory/files
 List all files in a folder, given a seach pattern. The search can be recursive.
 
-*QUERY PARAMS*
+**QUERY PARAMS**
  - path: folder path
  - searchPattern: search pattern, something lile *.*  or * to return all files 
  - recursive: if true search in subfolder
 
-*REQUIRED PERMISSION*
+**REQUIRED PERMISSION**
  - file/read
 
 ## File system API
@@ -136,34 +138,40 @@ This set of api expose OS infos like current username, environment variables and
 
 ### GET /OS/whoami
 Return the full username (DOMAIN\USER)
-*REQUIRED PERMISSION*
+
+**REQUIRED PERMISSION**
  - os/read
 
 ### GET /OS/username
 Return the username
-*REQUIRED PERMISSION*
+
+**REQUIRED PERMISSION**
  - os/read
 
 ### GET /OS/domainname
 Return the domain name
-*REQUIRED PERMISSION*
+
+**REQUIRED PERMISSION**
  - os/read
 
 ### GET /os/variable 
 Return a system varibale given the name
-*QUERY PARAMS*
+
+**QUERY PARAMS**
  - variableName
 
-*REQUIRED PERMISSION*
+**REQUIRED PERMISSION**
  - os/read
 
 
 ### GET /os/cpu
 Return CPU usage
-*REQUIRED PERMISSION*
+
+**REQUIRED PERMISSION**
  - os/read
 
 ### GET /os/ram
 Return RAM usage
-*REQUIRED PERMISSION*
+
+**REQUIRED PERMISSION**
  - os/read
