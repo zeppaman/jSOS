@@ -1,5 +1,24 @@
 # jSOS
-a tool for adding features like file system access to JavaScript
+A tool for adding features like file system access to JavaScript
+
+# Why
+In a world where we are delivering  powefull javascript application, we would have the possibility to print, interact with file system to be able to develop full desktop application with javascript.
+Often the parts that need such capabilities are very limited, so it is quite expensive creating and mantainig a desktop application or an emebdded application (electron).
+
+# How it works
+The simple idea behind jSOS is to create an host application that exposes all the feature available on the Desktop side (filesystem, os, printing, etc..) throught API. In that way your javascript application will be able to do what he need,  just using regular API call to localost.
+The feature access is scoped and profiled for the app, so that the user will be able do allow for each application only the needed feature. In poor words, it is like the permission on you smartphone.
+The JSOS app will be running in background, so each application that will need this tool will be able to interact without any friction.
+
+# Security considerations
+Mentinoned javascript limitation are here to prevent security issues and it is easy to understant that are needed. That's why introducing such extension open to security consideration.
+The principle over all it that if your user allow an application to access some resources, he thrust it and is able to evalutate the impact on is device. Something like when you go to the app marketplace and install an app. If you thrust the cross word game to access you phonebook and your gallery... it is your decision.
+Comparing to the scenario when you install a desktop applciation, you ave more control about what the application does, beacuse the web app will need to ask the proper permission to jSOS. Everything will be transparent.
+The access to the API is limited to the local host by deafult, so other PC in the LAN cannot try to use it. Each call to the API is authorized by a token that is generated during registration and avoid that thirdy party can act in behalf of the app you thrusted.
+
+**Note** All the pracutions listed above dosen't prevent the phisching schenario. If some malicius web site try to register an app called "google" and the user is not able to detect that this website is not google, he may thrust the wrong application. This is the big difference from smarphones store: in maketplaces app identy are granted by the vendor.
+
+
 
 
 # Tutorial
@@ -39,6 +58,8 @@ By convention each request must have these headers:
 - AppName: the name of the app used
 
 Then the request must be compliant with the functional part of the service (ie. passing path to get files into a folder)
+
+All paths in next part of the documentation omits the hostname part. So, if you read /filesystem/file/save you will have to use probably something like http://localhost:54320/filesystem/file/save
 
 
 ## File system API
