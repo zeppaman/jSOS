@@ -50,6 +50,7 @@ namespace JsOS.API.Controllers
                 }
 
             }
+            this.MessageBusService.Emit("appchanged", null);
 
             return false;
         }
@@ -62,5 +63,7 @@ namespace JsOS.API.Controllers
             appToSave.Token = request.Token;
             return appToSave;
         }
+
+
     }
 }

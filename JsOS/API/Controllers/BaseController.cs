@@ -12,10 +12,14 @@ namespace JsOS.API.Controllers
     {
         public BaseController()
         {
-            this.DatabaseService = App.ServiceProvider.GetService(typeof(DatabaseService)) as DatabaseService;            
+            this.DatabaseService = App.ServiceProvider.GetService(typeof(DatabaseService)) as DatabaseService;
+            this.MessageBusService = App.ServiceProvider.GetService(typeof(MessageBusService)) as MessageBusService;
+
         }
 
         public DatabaseService DatabaseService { get ; set ; }
+        public MessageBusService MessageBusService { get; set; }
+
 
         public void ComputePermission(string permission,HttpContext httpContext)
         {

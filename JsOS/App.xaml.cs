@@ -58,7 +58,8 @@ namespace JsOS
             services.AddSingleton<ConfigService>();
             services.AddSingleton<DatabaseService>();
             services.AddSingleton<ServerService>();
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<MessageBusService>();
 
             App.ServiceProvider = services.BuildServiceProvider();
 

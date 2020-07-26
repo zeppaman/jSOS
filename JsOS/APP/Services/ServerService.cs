@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using JsOS.API;
 using JsOS.APP.Model;
@@ -11,15 +12,19 @@ namespace JsOS.APP.Services
 {
     public class ServerService
     {
-        public ServerService()
+        public MessageBusService messageBusService;
+        public ServerService(MessageBusService messageBusService)
         {
-            
+                this.messageBusService = messageBusService;
         }
+
+        private string serverStatus;
 
        private  IWebHost server=null;
         public void RestartServer(Settings settings)
         {
             StopServer(settings);
+            
             if (settings.Enabled == false)
             {
                 return;
@@ -36,23 +41,44 @@ namespace JsOS.APP.Services
                   x.ListenLocalhost(settings.PortNumber);
 
               }).UseStartup<ApiStartup>().Build();
+
+            serverStatus = "Starting";
+
+
+            this.messageBusService.Emit("serverstatuschanged", serverStatus);
             
             Task.Run(() =>
             {
-                server.Run();
+                Thread.Sleep(3000);
+                server.RunAsync();
+                serverStatus = "Started";
+                this.messageBusService.Emit("serverstatuschanged", serverStatus);
 
             });
 
+           
+           
         }
 
         public void StopServer(Settings settings)
         {
             if (this.server != null)
             {
-                this.server.StopAsync().Wait();
+                serverStatus = "Shutting down";
+                this.messageBusService.Emit("serverstatuschanged", serverStatus);
+                this.server.StopAsync().Wait(); 
+             
             }
+            Thread.Sleep(3000);
+            serverStatus = "Down";
+            this.messageBusService.Emit("serverstatuschanged", serverStatus);
 
-            
         }
+
+        public string GetServerStatus()
+        {
+            return serverStatus;
+        }
+
     }
 }

@@ -21,7 +21,8 @@
                 <DockPanel VerticalAlignment="Stretch"  >
 
                     <DockPanel  Height="40" Background="Beige" DockPanel.Dock="Bottom" HorizontalAlignment="Stretch" LastChildFill="False">
-                        <Button Content="Save"  Command="{Binding SavePermission}" VerticalAlignment="Center" Height="30" Width="100" DockPanel.Dock="Right" Margin="20,0" />                        
+                   
+                    <Button Content="Save"  Command="{Binding SavePermission}" VerticalAlignment="Center" Height="30" Width="100" DockPanel.Dock="Right" Margin="20,0" />                        
                     </DockPanel>
 
 
@@ -143,8 +144,8 @@
             </TabItem>
             <TabItem Header="Settings">
             <DockPanel VerticalAlignment="Stretch" >
-                <DockPanel  Height="40" Background="Beige" DockPanel.Dock="Bottom" HorizontalAlignment="Stretch" LastChildFill="False">
-                    <Button Content="Save"  Command="{Binding SaveSettings, Mode=TwoWay}" CommandParameter="{Binding Settings}" VerticalAlignment="Center" Height="30" Width="100" DockPanel.Dock="Right" Margin="20,0"/>
+                <DockPanel  Height="40" Background="Beige" DockPanel.Dock="Bottom" HorizontalAlignment="Stretch" LastChildFill="False">                    
+                    <Button Content="Save"  Command="{Binding SaveSettings}" CommandParameter="{Binding Settings}" VerticalAlignment="Center" Height="30" Width="100" DockPanel.Dock="Right" Margin="20,0"/>
                 </DockPanel>
                     <GroupBox DataContext="{Binding Path=Settings}" FontSize="15" >
                         <StackPanel>

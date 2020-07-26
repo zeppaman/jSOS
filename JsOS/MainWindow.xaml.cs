@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using JsOS.APP.Core;
 using JsOS.APP.Model;
 using JsOS.APP.Services;
@@ -28,19 +29,42 @@ namespace JsOS
 
         private DatabaseService db;
         private ServerService serverService;
+        private MessageBusService messageBusService;
+
+        bool statusToUpdate = true;
         public MainWindow()
         {
-           
+
 
             this.db = App.ServiceProvider.GetService(typeof(DatabaseService)) as DatabaseService;
             this.serverService = App.ServiceProvider.GetService(typeof(ServerService)) as ServerService;
+            this.messageBusService = App.ServiceProvider.GetService(typeof(MessageBusService)) as MessageBusService;
+
+
+
+            this.messageBusService.RegisterEvent("appchanged", (appid) =>
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    ReloadData();
+                });
+                
+            });
+
+
+            this.messageBusService.RegisterEvent("serverstatuschanged", (status) =>
+            {
+                ServerStatus = this.serverService.GetServerStatus();
+                this.Title = "jSOS Server Status:" + ServerStatus;
+                statusToUpdate = true;
+            });
 
             SelectChildPermission = new RelayCommand<List<object>>(args =>
             {
                 OnSelectChildPermission(args);
             }, o => true);
 
-          
+
 
             SavePermission = new RelayCommand((obj) =>
             {
@@ -52,19 +76,25 @@ namespace JsOS
                 OnSaveSettings(obj);
             }, o => true);
 
+            ReloadData();
+
+           
+
+            InitializeComponent();
+
+            
+        }
 
 
+        private void ReloadData()
+        {
             var apps = this.db.GetAppPermission().FindAll().ToList();
 
             apps.ForEach((x) => { this.AppPermission.Add(x); });
 
 
             this.Settings = this.db.GetSettings();
-
-            InitializeComponent();
         }
-
-
 
         public RelayCommand<List<object>> SelectChildPermission { get; set; }
 
@@ -84,7 +114,11 @@ namespace JsOS
         {
           
             this.db.SaveSettings(this.Settings);
-            this.serverService.RestartServer(this.Settings);
+
+            Dispatcher.Invoke(() =>
+            {
+                this.serverService.RestartServer(this.Settings);
+            });
         }
 
         private void OnSelectChildPermission(List<object> args)
@@ -130,6 +164,27 @@ namespace JsOS
                                      "AppPermissionProperty",
                                      typeof(BindingList<AppPermission>),
                                      typeof(MainWindow), new UIPropertyMetadata(new BindingList<AppPermission>()));
+
+
+
+        public string ServerStatus
+        {
+            get
+            {
+                return (string)GetValue(ServerStatusProperty);
+            }
+            set
+            {
+                SetValue(ServerStatusProperty, value);
+            }
+        }
+
+        public readonly
+             DependencyProperty ServerStatusProperty
+                 = DependencyProperty.Register(
+                                     "ServerStatusProperty",
+                                     typeof(string),
+                                     typeof(MainWindow), new UIPropertyMetadata("started"));
 
 
 
