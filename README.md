@@ -12,6 +12,8 @@ The simple idea behind jSOS is to create an host application that exposes all th
 The feature access is scoped and profiled for the app, so that the user will be able do allow for each application only the needed feature. In poor words, it is like the permission on you smartphone.
 The JSOS app will be running in background, so each application that will need this tool will be able to interact without any friction.
 
+![JSOS The javascritp API for access file system](https://github.com/zeppaman/jSOS/blob/master/jsos-schema.png?raw=true)
+
 # Security considerations
 Mentinoned javascript limitation are here to prevent security issues and it is easy to understant that are needed. That's why introducing such extension open to security consideration.
 The principle over all it that if your user allow an application to access some resources, he thrust it and is able to evalutate the impact on is device. Something like when you go to the app marketplace and install an app. If you thrust the cross word game to access you phonebook and your gallery... it is your decision.
