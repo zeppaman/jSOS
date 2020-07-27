@@ -14,7 +14,7 @@ namespace JsOS.API.Controllers
     public class AppController:BaseController
     {
 
-        public AppController() : base()
+        public AppController(DatabaseService databaseService, MessageBusService messageBusService) : base(databaseService, messageBusService)
         { }
 
         [HttpPost("register")]

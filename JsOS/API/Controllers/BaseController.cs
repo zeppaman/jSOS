@@ -10,10 +10,10 @@ namespace JsOS.API.Controllers
 {
     public abstract class BaseController:Controller
     {
-        public BaseController()
+        public BaseController(DatabaseService databaseService, MessageBusService messageBusService)
         {
-            this.DatabaseService = App.ServiceProvider.GetService(typeof(DatabaseService)) as DatabaseService;
-            this.MessageBusService = App.ServiceProvider.GetService(typeof(MessageBusService)) as MessageBusService;
+            this.DatabaseService = databaseService;
+            this.MessageBusService = messageBusService;
 
         }
 

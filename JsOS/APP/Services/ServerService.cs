@@ -15,32 +15,35 @@ namespace JsOS.APP.Services
         public MessageBusService messageBusService;
         public ServerService(MessageBusService messageBusService)
         {
-                this.messageBusService = messageBusService;
+            this.messageBusService = messageBusService;
         }
 
         private string serverStatus;
 
-       private  IWebHost server=null;
+        private IWebHost server = null;
         public void RestartServer(Settings settings)
         {
             StopServer(settings);
-            
+
             if (settings.Enabled == false)
             {
                 return;
             }
 
-             this.server = WebHost.CreateDefaultBuilder().UseKestrel(x =>
-              {
-                  
-                  if (settings.AllowExternalIps)
-                  {
-                      x.ListenAnyIP(settings.PortNumber);                      
-                  }
+            this.server = WebHost.CreateDefaultBuilder().UseKestrel(x =>
+             {
 
-                  x.ListenLocalhost(settings.PortNumber);
+                 if (settings.AllowExternalIps)
+                 {
+                     x.ListenAnyIP(settings.PortNumber);
+                 }
 
-              }).UseStartup<ApiStartup>().Build();
+                 x.ListenLocalhost(settings.PortNumber);
+
+             }).UseStartup<ApiStartup>().UseDefaultServiceProvider((b,o)=> { 
+                
+             })
+             .Build();
 
             serverStatus = "Starting";
 

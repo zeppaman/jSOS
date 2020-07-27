@@ -13,7 +13,7 @@ namespace JsOS.API.Controllers
     [Route("[controller]")]
     public class OSController : BaseController
     {
-        public OSController() : base()
+        public OSController(DatabaseService databaseService, MessageBusService messageBusService) : base(databaseService, messageBusService)
         { }
 
 

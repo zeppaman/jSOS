@@ -29,13 +29,20 @@ namespace JsOS.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            
+            //share same instance
+            foreach(var  service in App.Services)
+            {
+                services.AddSingleton(service.ServiceType,App.ServiceProvider.GetRequiredService(service.ServiceType));
+            }
+           
         }
 
 
         public void Configure(IApplicationBuilder app)
         {
           
-                app.UseDeveloperExceptionPage();
+            app.UseDeveloperExceptionPage();
            
 
             app.UseHttpsRedirection();

@@ -12,7 +12,7 @@ namespace JsOS.API.Controllers
     [Route("[controller]")]
     public class FileSystemController:BaseController
     {
-        public FileSystemController() : base()
+        public FileSystemController(DatabaseService databaseService, MessageBusService messageBusService) : base(databaseService, messageBusService)
         { }
 
 

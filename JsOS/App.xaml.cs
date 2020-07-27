@@ -50,18 +50,18 @@ namespace JsOS
             var serverService = App.ServiceProvider.GetService(typeof(ServerService)) as ServerService;
             serverService.RestartServer(settings);
         }
-
+        public static ServiceCollection Services { get; set; } = new ServiceCollection();
         private void LoadDepedencies()
         {
-            var services = new ServiceCollection();
 
-            services.AddSingleton<ConfigService>();
-            services.AddSingleton<DatabaseService>();
-            services.AddSingleton<ServerService>();
-            services.AddScoped<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddSingleton<MessageBusService>();
 
-            App.ServiceProvider = services.BuildServiceProvider();
+            Services.AddSingleton<ConfigService>();
+            Services.AddSingleton<DatabaseService>();
+            Services.AddSingleton<ServerService>();
+            Services.AddScoped<IHttpContextAccessor, HttpContextAccessor>();
+            Services.AddSingleton<MessageBusService>();
+
+            App.ServiceProvider = Services.BuildServiceProvider();
 
         }
 
