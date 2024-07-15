@@ -4,23 +4,23 @@ A tool for adding features like file system access to JavaScript
 <image src="https://github.com/zeppaman/jSOS/blob/master/logo.png?raw=true" align="left" width="250"/>
 
 # Why
-In a world where we are delivering  powefull javascript application, we would have the possibility to print, interact with file system to be able to develop full desktop application with javascript.
-Often the parts that need such capabilities are very limited, so it is quite expensive creating and mantainig a desktop application or an emebdded application (electron).
+In a world where we are delivering powerful JavaScript applications, we would have the possibility to print and interact with the file system to be able to develop full desktop applications with JavaScript.
+Often the parts that need such capabilities are very limited, so it is quite expensive creating and maintaining a desktop application or an embedded application (Electron).
 
 # How it works
-The simple idea behind jSOS is to create an host application that exposes all the feature available on the Desktop side (filesystem, os, printing, etc..) throught API. In that way your javascript application will be able to do what he need,  just using regular API call to localost.
-The feature access is scoped and profiled for the app, so that the user will be able do allow for each application only the needed feature. In poor words, it is like the permission on you smartphone.
-The JSOS app will be running in background, so each application that will need this tool will be able to interact without any friction.
+The simple idea behind jSOS is to create a host application that exposes all the features available on the Desktop side (filesystem, OS, printing, etc..) through an API. In that way your JavaScript application will be able to do what you need,  just using regular API calls to localhost.
+The feature access is scoped and profiled for the app, so that the user will be able to allow for each application only the needed features. In other words, it is like the permissions on your smartphone.
+The JSOS app will be running in the background, so each application that will need this tool will be able to interact without any friction.
 
-![JSOS The javascritp API for access file system](https://github.com/zeppaman/jSOS/blob/master/jsos-schema.png?raw=true)
+![JSOS The JavaScript API for accessing the file system](https://github.com/zeppaman/jSOS/blob/master/jsos-schema.png?raw=true)
 
 # Security considerations
-Mentinoned javascript limitation are here to prevent security issues and it is easy to understant that are needed. That's why introducing such extension open to security consideration.
-The principle over all it that if your user allow an application to access some resources, he thrust it and is able to evalutate the impact on is device. Something like when you go to the app marketplace and install an app. If you thrust the cross word game to access you phonebook and your gallery... it is your decision.
-Comparing to the scenario when you install a desktop applciation, you ave more control about what the application does, beacuse the web app will need to ask the proper permission to jSOS. Everything will be transparent.
-The access to the API is limited to the local host by deafult, so other PC in the LAN cannot try to use it. Each call to the API is authorized by a token that is generated during registration and avoid that thirdy party can act in behalf of the app you thrusted.
+Mentioned JavaScript limitations are here to prevent security issues and it is easy to understand that they are needed. That's why introducing such extensions is open to security considerations.
+The overall principle is that if your user allows an application to access some resources, he trusts it and is able to evaluate the impact on his device. Something like when you go to the app marketplace and install an app. If you trust the crossword game to access your phonebook and your gallery...it is your decision.
+Comparing to the scenario when you install a desktop application, you have more control about what the application does, because the web app will need to ask for the proper permission to jSOS. Everything will be transparent.
+The access to the API is limited to the local host by default, so another PC in the LAN cannot try to use it. Each call to the API is authorized by a token that is generated during registration and avoids third parties being able to act on behalf of the app you trusted.
 
-**Note** All the pracutions listed above dosen't prevent the phisching schenario. If some malicius web site try to register an app called "google" and the user is not able to detect that this website is not google, he may thrust the wrong application. This is the big difference from smarphones store: in maketplaces app identy are granted by the vendor.
+**Note** All the precautions listed above doesn't prevent the phishing scenario. If some malicious web site tries to register an app called "Google" and the user is not able to detect that this website is not Google, he may trust the wrong application. This is the big difference from smartphones' stores: in marketplace apps identity is granted by the vendor.
 
 
 
@@ -67,10 +67,10 @@ All paths in next part of the documentation omits the hostname part. So, if you 
 
 
 ## File system API
-This set of API exend the filesystem usage. There are 3 different authotization level:
+This set of API extends the filesystem usage. There are 3 different authorization levels:
 
 - file/read (read access to the file system)
-- file/write (write access to the file system, witout deletion)
+- file/write (write access to the file system, without deletion)
 - file/delete (delete access to the file system)
 
 Such permissions are non inclusive, so if you want to create, update and delete a file you need all of them. The filesystem access is unrestricted and limited only by user limitation introduced by OS.
@@ -125,18 +125,18 @@ Delete a file
  - file/delete
 
 ### GET /filesystem/directory/files
-List all files in a folder, given a seach pattern. The search can be recursive.
+List all files in a folder, given a search pattern. The search can be recursive.
 
 **QUERY PARAMS**
  - path: folder path
- - searchPattern: search pattern, something lile *.*  or * to return all files 
+ - searchPattern: search pattern, something like *.*  or * to return all files 
  - recursive: if true search in subfolder
 
 **REQUIRED PERMISSION**
  - file/read
 
 ## File system API
-This set of api expose OS infos like current username, environment variables and performance counters.
+This set of API expose OS info like current username, environment variables and performance counters.
 
 ### GET /OS/whoami
 Return the full username (DOMAIN\USER)
@@ -157,7 +157,7 @@ Return the domain name
  - os/read
 
 ### GET /os/variable 
-Return a system varibale given the name
+Return a system variable given the name
 
 **QUERY PARAMS**
  - variableName
